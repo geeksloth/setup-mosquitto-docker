@@ -2,7 +2,8 @@
 A short note of setting up the mosquitto MQTT broker with Docker container.
 
 
-## 1. Docker installation
+
+## 1. Docker installation and getting started
 This step is optional if you have already installed Docker in your system.
 
 ```code
@@ -14,79 +15,79 @@ sudo apt-get install -y docker.io
 brew install --cask docker
 ```
 
-## 2. Pull the Mosquitto Docker image
 To pull the Mosquitto Docker image, run the following command:
 
 ```code
 docker pull eclipse-mosquitto
 ```
 
-## 3. Run the Mosquitto Docker container
 To run the Mosquitto Docker container, use the following command:
 
 ```code
-docker run -it -p 1883:1883 -p 9001:9001 -n mqtt_broker eclipse-mosquitto
-```
-
-To stop the container for further configuration, use the following command:
-
-```code
-docker stop mqtt_broker
+docker run -it -p 1883:1883 eclipse-mosquitto
 ```
 
 
-## 4. Configuration
-When running the image, the default configuration values are used. To use a custom configuration file, create your `mosquitto.conf` in `$PWD/mosquitto/config/mosquitto.conf`, then mount the config directory to `/mosquitto/config`.
+
+## 2. Configuration
+When running the image, the default configuration values are used. To use a custom configuration file, create your `mosquitto.conf` in `$PWD/mosquitto/config/mosquitto.conf` with following information:
 
 ```code
-docker run -it -p 1883:1883 -v "$PWD/mosquitto/config:/mosquitto/config" eclipse-mosquitto
-```
-
-Configuration can be changed to:
-
-- Persist data to `/mosquitto/data`
-- Log to `/mosquitto/log/mosquitto.log`
-
-i.e. add the following to `mosquitto.conf`:
-
-```code
+allow_anonymous false
+listener 1883
+protocol websockets
+password_file /mosquitto/config/passwd
 persistence true
 persistence_location /mosquitto/data/
 log_dest file /mosquitto/log/mosquitto.log
 ```
 
-Note: If a volume is used, the data will persist between containers.
-
-## 5. Run
-Run a container using the new image:
-
+Create a blank file to store the useranme and password
 ```code
-docker run -it -p 1883:1883 -v "$PWD/mosquitto/config:/mosquitto/config" -v /mosquitto/data -v /mosquitto/log eclipse-mosquitto
+touch /mosquitto/config/passwd
 ```
 
-or:
+Run a container using the new configuration:
 
 ```code
 docker run -it -p 1883:1883 -v "$PWD/mosquitto/config:/mosquitto/config" -v "$PWD/mosquitto/data:/mosquitto/data" -v "$PWD/mosquitto/log:/mosquitto/log" eclipse-mosquitto
 ```
 
-Note: if the Mosquitto configuration (`mosquitto.conf`) was modified to use non-default ports, the `docker run` command will need to be updated to expose the ports that have been configured.
+Create `username` and `password` in the passwd
 
-For example, if you use port 1883 and port 8080:
-
+Exec  into the mqtt container
 ```code
-docker run -it -p 1883:1883 -p 8080:8080 -v "$PWD/mosquitto/config:/mosquitto/config" eclipse-mosquitto
+sudo docker exec -it <container-id> sh
 ```
 
-## 6. Testing the setup
+Create new password file and add user and it will prompt for password
+```code
+mosquitto_passwd -c /mosquitto/config/passwd user1
+```
+
+Add additional users
+```code
+mosquitto_passwd /mosquitto/config/passwd user2
+```
+
+[Optional] To delete user:
+```code
+mosquitto_passwd -D /mosquitto/config/passwd <user-name>
+```
+
+type `exit` to exit the container
+
+
+
+## 3. Testing the setup
 You can test the Mosquitto setup using an MQTT client like `mosquitto_pub` and `mosquitto_sub`.
 
 ```code
 # Open a terminal and subscribe to a topic
-mosquitto_sub -h localhost -t test/topic
+mosquitto_sub -h <mqtt_broker_ip> -t "test/topic" -u <user> -P <password>
 
 # Open another terminal and publish a message to the topic
-mosquitto_pub -h localhost -t test/topic -m "Hello, MQTT"
+mosquitto_pub -h <mqtt_broker_ip> -t "test/topic" -m "Hello, MQTT" -u <user> -P <password>
 ```
 
 This should help you set up and test the Mosquitto MQTT broker using Docker.
