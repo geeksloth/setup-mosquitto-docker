@@ -36,7 +36,7 @@ When running the image, the default configuration values are used. To use a cust
 allow_anonymous false
 listener 1883
 protocol websockets
-password_file /mosquitto/config/passwd
+password_file /mosquitto/config/passwordfile
 persistence true
 persistence_location /mosquitto/data/
 log_dest file /mosquitto/log/mosquitto.log
@@ -44,7 +44,7 @@ log_dest file /mosquitto/log/mosquitto.log
 
 Create a blank file to store the useranme and password
 ```code
-touch /mosquitto/config/passwd
+touch /mosquitto/config/passwordfile
 ```
 
 Run a container using the new configuration:
@@ -53,7 +53,7 @@ Run a container using the new configuration:
 docker run -it -p 1883:1883 -v "$PWD/mosquitto/config:/mosquitto/config" -v "$PWD/mosquitto/data:/mosquitto/data" -v "$PWD/mosquitto/log:/mosquitto/log" eclipse-mosquitto
 ```
 
-Create `username` and `password` in the passwd
+Create `username` and `password` in the passwordfile
 
 Exec  into the mqtt container
 ```code
@@ -62,17 +62,17 @@ sudo docker exec -it <container-id> sh
 
 Create new password file and add user and it will prompt for password
 ```code
-mosquitto_passwd -c /mosquitto/config/passwd user1
+mosquitto_passwd -c /mosquitto/config/passwordfile user1
 ```
 
 Add additional users
 ```code
-mosquitto_passwd /mosquitto/config/passwd user2
+mosquitto_passwd /mosquitto/config/passwordfile user2
 ```
 
 [Optional] To delete user:
 ```code
-mosquitto_passwd -D /mosquitto/config/passwd <user-name>
+mosquitto_passwd -D /mosquitto/config/passwordfile <user-name>
 ```
 
 type `exit` to exit the container
