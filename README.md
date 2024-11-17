@@ -72,7 +72,7 @@ To delete user:
 mosquitto_passwd -D /mosquitto/config/passwordfile <user-name>
 ```
 
-> [!NOTE]
+> [!TIP]
 > type `exit` to exit the container
 
 
