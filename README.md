@@ -7,12 +7,15 @@ A short note of setting up the mosquitto MQTT broker with Docker container.
 > [!NOTE]
 > This step is optional. If you have already installed Docker in your system and pulled the image, skip to the next step.
 
+For Debian-based, ie. Ubuntu, Raspberry Pi, ...
 ```bash
-# For Debian-based, ie. Ubuntu, Raspberry Pi, ...
-sudo apt-get update
-sudo apt-get install -y docker.io
-
-# For macOS
+sudo apt-get update && sudo apt-get install -y docker.io
+```
+```bash
+sudo usermod -aG docker $USER
+```
+For macOS
+```bash
 brew install --cask docker
 ```
 
