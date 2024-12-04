@@ -35,10 +35,10 @@ Download configuration template file from [https://github.com/eclipse-mosquitto/
 ```conf
 allow_anonymous false
 listener 1883
-protocol websockets
+#protocol websockets
 password_file /mosquitto/config/passwordfile
 persistence true
-persistence_location /mosquitto/data
+persistence_location /mosquitto/data/
 log_dest file /mosquitto/log/mosquitto.log
 ```
 > [!NOTE]
@@ -90,12 +90,12 @@ You can test the Mosquitto setup using an MQTT client like `mosquitto_pub` and `
 
 To subscribe the topic:
 ```bash
-mosquitto_sub -h <mqtt_broker_ip> -t "test/topic" -u <user> -P <password>
+mosquitto_sub -h localhost -t "test/topic" -u <user> -P <password>
 ```
 
 To publish a message to the topic:
 ```bash
-mosquitto_pub -h <mqtt_broker_ip> -t "test/topic" -m "Hello, MQTT" -u <user> -P <password>
+mosquitto_pub -h localhost -t "test/topic" -m "Hello, MQTT" -u <user> -P <password>
 ```
 
 This should help you set up and test the Mosquitto MQTT broker using Docker.
