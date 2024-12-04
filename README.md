@@ -31,7 +31,7 @@ Create necessary directories:
 ```bash
 mkdir ~/mosquitto && mkdir ~/mosquitto/config && mkdir ~/mosquitto/data && mkdir ~/mosquitto/log
 ```
-Download configuration template file from [mosquitto.conf](https://github.com/eclipse-mosquitto/mosquitto/blob/master/mosquitto.conf), save to `~/mosquitto/config/mosquitto.conf`, then modify it with following information:
+Download configuration template file: [mosquitto.conf](https://github.com/geeksloth/setup-mosquitto-docker/blob/main/mosquitto.conf), and save to `~/mosquitto/config/mosquitto.conf`, then modify it with following information:
 ```conf
 allow_anonymous false
 listener 1883
