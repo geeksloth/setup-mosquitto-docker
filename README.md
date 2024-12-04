@@ -51,7 +51,7 @@ sudo touch ~/mosquitto/config/passwordfile
 
 Run a container using the new configuration:
 ```bash
-docker run -it -d -p 1883:1883 -v "$HOME/mosquitto/config:/mosquitto/config" -v "$HOME/mosquitto/data:/mosquitto/data" -v "$HOME/mosquitto/log:/mosquitto/log" --name mqtt-broker eclipse-mosquitto
+docker run -it -p 1883:1883 -v "$HOME/mosquitto/config:/mosquitto/config" -v "$HOME/mosquitto/data:/mosquitto/data" -v "$HOME/mosquitto/log:/mosquitto/log" --name mqtt-broker eclipse-mosquitto
 ```
 
 
