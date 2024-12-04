@@ -26,10 +26,7 @@ docker pull eclipse-mosquitto
 ## 2. Configuration
 Create necessary directories:
 ```bash
-mkdir ~/mosquitto
-mkdir ~/mosquitto/config
-mkdir ~/mosquitto/data
-mkdir ~/mosquitto/log
+mkdir ~/mosquitto && mkdir ~/mosquitto/config && mkdir ~/mosquitto/data && mkdir ~/mosquitto/log
 ```
 Download configuration template file from [https://github.com/eclipse-mosquitto/mosquitto/blob/master/mosquitto.conf](https://github.com/eclipse-mosquitto/mosquitto/blob/master/mosquitto.conf), save to `~/mosquitto/config/mosquitto.conf`, then modify it with following information:
 ```conf
