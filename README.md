@@ -26,12 +26,12 @@ docker pull eclipse-mosquitto
 ## 2. Configuration
 Create necessary directories:
 ```bash
-/mosquitto/config
-/mosquitto/data
-/mosquitto/log
+mkdir ~/mosquitto
+mkdir ~/mosquitto/config
+mkdir ~/mosquitto/data
+mkdir ~/mosquitto/log
 ```
-
-To use a custom configuration file, create your `mosquitto.conf` in `/mosquitto/config/mosquitto.conf` with following information:
+Download configuration template file from [https://github.com/eclipse-mosquitto/mosquitto/blob/master/mosquitto.conf](https://github.com/eclipse-mosquitto/mosquitto/blob/master/mosquitto.conf), save to `~/mosquitto/config/mosquitto.conf`, then modify it with following information:
 ```conf
 allow_anonymous false
 listener 1883
@@ -41,17 +41,24 @@ persistence true
 persistence_location /mosquitto/data
 log_dest file /mosquitto/log/mosquitto.log
 ```
+> [!NOTE]
+> `/mosquitto` in this file is not the same as `~/mosquitto` from the previous step. These directory will be mounted to a Docker container and working inside there.
+
+Create a `passwordfile` to store user and password for the service.
+```bash
+sudo touch ~/mosquitto/config/passwordfile
+```
 
 Run a container using the new configuration:
 ```bash
-docker run -it -p 1883:1883 -v "/mosquitto/config:/mosquitto/config" -v "/mosquitto/data:/mosquitto/data" -v "/mosquitto/log:/mosquitto/log" eclipse-mosquitto
+docker run -it -d -p 1883:1883 -v "$HOME/mosquitto/config:/mosquitto/config" -v "$HOME/mosquitto/data:/mosquitto/data" -v "$HOME/mosquitto/log:/mosquitto/log" --name mqtt-broker eclipse-mosquitto
 ```
 
 
 ## 3. Username and password
 Exec  into the mqtt container
 ```bash
-sudo docker exec -it <container-id> sh
+docker exec -it mqtt-broker sh
 ```
 
 Create new password file and add user and it will prompt for password
@@ -73,6 +80,7 @@ mosquitto_passwd -D /mosquitto/config/passwordfile <user-name>
 ```
 
 > [!TIP]
+> type `chmod 0700 /mosquitto/config/passwordfile` to change the permission, and `chown root /mosquitto/config/passwordfile` to change the owner.
 > type `exit` to exit the container
 
 
