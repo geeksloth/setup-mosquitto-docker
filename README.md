@@ -63,7 +63,7 @@ docker exec -it mqtt-broker sh
 
 Create new password file and add user and it will prompt for password
 ```bash
-mosquitto_passwd -c /mosquitto/config/passwordfile user1
+mosquitto_passwd /mosquitto/config/passwordfile user1
 ```
 > [!NOTE]
 > `-c` means create the password file, just do it at the first time.
