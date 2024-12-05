@@ -65,9 +65,6 @@ Create new password file and add user and it will prompt for password
 ```bash
 mosquitto_passwd /mosquitto/config/passwordfile user1
 ```
-> [!NOTE]
-> `-c` means create the password file, just do it at the first time.
-> You may change the `passwordfile` to any file name you want.
 
 Add additional users
 ```bash
